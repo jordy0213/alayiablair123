@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sneakzzy</h1>
+        <nav>
+            <a href="index.html">Login</a>
+            <a href="products.html">Products/Services</a>
+            <a href="invoice.html">Invoice</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+    
+    <div class="form-container">
+        <h2>Login</h2>
+        <form onsubmit="return validateLogin()">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        // Variables to store username, password, and track login attempts
+        var loginAttempts = 0;
+        var maxAttempts = 3;
+
+        // Hardcoded credentials (for simplicity)
+        var correctUsername = "Alayia123";
+        var correctPassword = "Blair123";
+
+        function validateLogin() {
+            // Get input values
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            // Simple validation to check if both fields are filled
+            if (username === "" || password === "") {
+                alert("Please fill in both fields.");
+                return false;
+            }
+
+            // Check if credentials are correct
+            if (username === correctUsername && password === correctPassword) {
+                alert("Login successful!");
+                localStorage.setItem("isLoggedIn", "true"); // Set login flag
+                window.location.href = "products.html"; // Redirect to products page
+                return false; // Prevent form submission
+            } else {
+                loginAttempts++; // Increment login attempts
+                alert("Incorrect username or password. Attempt " + loginAttempts + " of " + maxAttempts);
+
+                // Check if max attempts have been reached
+                if (loginAttempts >= maxAttempts) {
+                    alert("Too many failed attempts! Redirecting to error page.");
+                    window.location.href = "error.html"; // Redirect to error page
+                }
+                return false; // Prevent form submission
+            }
+        }
+    </script>
+</body>
+</html>

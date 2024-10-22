@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Sneakzzy</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+     <script>
+        // Check if user is logged in
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+            alert("You must log in first.");
+            window.location.href = "login.html"; // Redirect to login page
+        }
+    </script>
+    
+    <header>
+        <h1>Your Invoice</h1>
+        <nav>
+            <a href="index.html">Login</a>
+            <a href="products.html">Products/Services</a>
+        </nav>
+    </header>
+
+    <div class="invoice-container">
+        <h2>Transaction Summary</h2>
+        <div id="invoiceDetails"></div>
+        <p><strong>Subtotal:</strong> $<span id="subtotal"></span></p>
+        <p><strong>Tax (10%):</strong> $<span id="tax"></span></p>
+        <p><strong>Discount:</strong> $<span id="discount"></span></p>
+        <p><strong>Total:</strong> $<span id="total"></span></p>
+    </div>
+
+    <script>
+        // Retrieve the invoice data from localStorage
+        const invoiceData = JSON.parse(localStorage.getItem('invoiceData'));
+
+        if (invoiceData) {
+            // Display selected products
+            const invoiceDetails = document.getElementById('invoiceDetails');
+            invoiceData.products.forEach(product => {
+                const productDetail = document.createElement('p');
+                productDetail.textContent = `${product.name} - Quantity: ${product.quantity} - $${product.total.toFixed(2)}`;
+                invoiceDetails.appendChild(productDetail);
+            });
+
+            // Display charges
+            document.getElementById('subtotal').textContent = invoiceData.subtotal;
+            document.getElementById('tax').textContent = invoiceData.tax;
+            document.getElementById('discount').textContent = invoiceData.discount;
+            document.getElementById('total').textContent = invoiceData.total;
+        } else {
+            alert("No invoice data found.");
+        }
+    </script>
+</body>
+</html>
